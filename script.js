@@ -4,9 +4,9 @@ const siBtn = document.getElementById("siBtn");
 let posX = 0;
 let posY = 0;
 
-function colocarAlLadoDeSi() {
+function colocarBotonesIniciales() {
     const siRect = siBtn.getBoundingClientRect();
-    posX = siRect.right + 15;
+    posX = siRect.right + 50;
     posY = siRect.top;
     mantenerDentroPantalla();
 }
@@ -25,7 +25,6 @@ function mantenerDentroPantalla() {
 
 function moverDesdePunto(x, y) {
     const rect = noBtn.getBoundingClientRect();
-
     const centroX = rect.left + rect.width / 2;
     const centroY = rect.top + rect.height / 2;
 
@@ -33,37 +32,23 @@ function moverDesdePunto(x, y) {
     const distY = y - centroY;
     const distancia = Math.sqrt(distX ** 2 + distY ** 2);
 
-    if (distancia < 140) {
-        const fuerza = 220;
-
+    if (distancia < 150) {
+        const fuerza = 250;
         posX -= (distX / distancia) * fuerza;
         posY -= (distY / distancia) * fuerza;
 
-        posX += (Math.random() - 0.5) * 100;
-        posY += (Math.random() - 0.5) * 100;
+        posX += (Math.random() - 0.5) * 120;
+        posY += (Math.random() - 0.5) * 120;
 
         mantenerDentroPantalla();
     }
 }
 
-// 🖱️ Mouse
-document.addEventListener("mousemove", (e) => {
-    moverDesdePunto(e.clientX, e.clientY);
-});
+document.addEventListener("mousemove", (e) => moverDesdePunto(e.clientX, e.clientY));
+document.addEventListener("touchstart", (e) => moverDesdePunto(e.touches[0].clientX, e.touches[0].clientY));
+document.addEventListener("touchmove", (e) => moverDesdePunto(e.touches[0].clientX, e.touches[0].clientY));
 
-// 📱 Dedo (cuando tocas)
-document.addEventListener("touchstart", (e) => {
-    const touch = e.touches[0];
-    moverDesdePunto(touch.clientX, touch.clientY);
-});
-
-// 📱 Dedo moviéndose
-document.addEventListener("touchmove", (e) => {
-    const touch = e.touches[0];
-    moverDesdePunto(touch.clientX, touch.clientY);
-});
-
-window.addEventListener("load", colocarAlLadoDeSi);
+window.addEventListener("load", colocarBotonesIniciales);
 window.addEventListener("resize", mantenerDentroPantalla);
 
 noBtn.addEventListener("click", (e) => {
@@ -71,6 +56,8 @@ noBtn.addEventListener("click", (e) => {
     e.stopPropagation();
 });
 
+// 🔥 REDIRECCIÓN
 siBtn.addEventListener("click", () => {
-    alert("Has pulsado SI ❤️");
+    window.location.href = "si.html";
 });
+
